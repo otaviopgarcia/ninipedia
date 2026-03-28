@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ninipedia — Tubarões</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --deep: #071020;
+    --mid: #0d2044;
+    --blue: #1a3a6b;
+    --accent: #4a9eff;
+    --glow: #7ec8ff;
+    --gold: #c8a84b;
+    --text: #d4e8ff;
+    --muted: #6a94c8;
+    --white: #f0f6ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Ocean background effect */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(26,58,107,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(10,30,70,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 80%, rgba(7,16,32,0.5) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle wave lines */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 60px,
+      rgba(74,158,255,0.02) 60px,
+      rgba(74,158,255,0.02) 61px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid rgba(74,158,255,0.15);
+    background: linear-gradient(180deg, rgba(7,16,32,0.8) 0%, transparent 100%);
+  }
+
+  .header-emblem {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(74,158,255,0.5));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  h1.logo {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: var(--white);
+    text-shadow:
+      0 0 60px rgba(74,158,255,0.4),
+      0 0 120px rgba(74,158,255,0.2);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .logo span {
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .subtitle::before, .subtitle::after {
+    content: '〜';
+    margin: 0 0.5rem;
+    color: rgba(74,158,255,0.4);
+  }
+
+  nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    padding: 0 2rem;
+    border-bottom: 1px solid rgba(74,158,255,0.1);
+    overflow-x: auto;
+  }
+
+  nav a {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  nav a:hover, nav a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  main {
+    position: relative;
+    z-index: 10;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .shark-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 5rem;
+    padding: 3rem;
+    border: 1px solid rgba(74,158,255,0.12);
+    border-radius: 4px;
+    background: rgba(10,22,40,0.6);
+    position: relative;
+    transition: border-color 0.4s;
+  }
+
+  .shark-card:hover {
+    border-color: rgba(74,158,255,0.3);
+  }
+
+  .shark-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 3rem; right: 3rem;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .shark-card:hover::before {
+    opacity: 1;
+  }
+
+  .shark-card:nth-child(even) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .shark-card:nth-child(even) .shark-figure {
+    order: 2;
+  }
+
+  .shark-card:nth-child(even) .shark-info {
+    order: 1;
+  }
+
+  .card-number {
+    font-family: 'Cinzel', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(74,158,255,0.06);
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .shark-figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .shark-svg-wrap {
+    width: 220px;
+    height: 220px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .shark-svg-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,158,255,0.06) 0%, transparent 70%);
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.5; }
+  }
+
+  .shark-svg-wrap svg {
+    width: 180px;
+    height: 180px;
+    animation: spin-y 12s linear infinite;
+    filter: drop-shadow(0 0 25px rgba(74,158,255,0.3));
+  }
+
+  @keyframes spin-y {
+    0%   { transform: rotateY(0deg); }
+    50%  { transform: rotateY(180deg); filter: drop-shadow(0 0 10px rgba(74,158,255,0.1)); }
+    100% { transform: rotateY(360deg); }
+  }
+
+  .shark-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    padding: 0.3rem 1rem;
+    border: 1px solid rgba(74,158,255,0.25);
+    border-radius: 2px;
+  }
+
+  .shark-info {}
+
+  .shark-name {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+  }
+
+  .shark-latin {
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .shark-desc {
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+
+  .shark-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .stat {
+    background: rgba(26,58,107,0.2);
+    border: 1px solid rgba(74,158,255,0.1);
+    border-radius: 3px;
+    padding: 0.6rem 0.9rem;
+  }
+
+  .stat-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .danger-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    padding: 0.25rem 0.7rem;
+    border-radius: 2px;
+    margin-top: 1rem;
+    text-transform: uppercase;
+  }
+
+  .danger-high { background: rgba(200,60,60,0.15); border: 1px solid rgba(200,60,60,0.3); color: #ff8a8a; }
+  .danger-med  { background: rgba(200,160,40,0.15); border: 1px solid rgba(200,160,40,0.3); color: #ffd97a; }
+  .danger-low  { background: rgba(60,180,100,0.15); border: 1px solid rgba(60,180,100,0.3); color: #7aff9e; }
+  .danger-extinct { background: rgba(120,60,20,0.2); border: 1px solid rgba(180,100,40,0.4); color: #ffb870; }
+
+  .megalodon-card {
+    border-color: rgba(180,100,40,0.25);
+    background: rgba(18,10,5,0.75);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .megalodon-card::after {
+    content: '†';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 8rem;
+    color: rgba(180,100,40,0.04);
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .megalodon-card:hover {
+    border-color: rgba(180,100,40,0.45);
+  }
+
+  .megalodon-card:hover::before {
+    background: linear-gradient(90deg, transparent, #c8784b, transparent);
+    opacity: 1;
+  }
+
+  .megalodon-wrap::before {
+    background: radial-gradient(circle, rgba(180,100,40,0.08) 0%, transparent 70%);
+  }
+
+  .megalodon-wrap svg {
+    filter: drop-shadow(0 0 25px rgba(180,100,40,0.35));
+  }
+
+  .megalodon-name {
+    background: linear-gradient(90deg, #f0e8d0, #c8a84b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .extinct-tag {
+    border-color: rgba(180,100,40,0.35) !important;
+    color: #c8784b !important;
+  }
+
+  .divider {
+    text-align: center;
+    margin: 2rem 0;
+    color: rgba(74,158,255,0.2);
+    font-size: 1.5rem;
+    letter-spacing: 1rem;
+  }
+
+  footer {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid rgba(74,158,255,0.1);
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: rgba(106,148,200,0.5);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    .shark-card {
+      grid-template-columns: 1fr;
+      padding: 2rem 1.5rem;
+    }
+    .shark-card:nth-child(even) .shark-figure,
+    .shark-card:nth-child(even) .shark-info {
+      order: unset;
+    }
+    .shark-figure { order: -1; }
+    .shark-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-emblem">🦈</span>
+  <h1 class="logo">Nini<span>pedia</span></h1>
+  <p class="subtitle">sobre a paixão da minha paixão</p>
+</header>
+
+<nav>
+  <a href="#grande-branco" class="active">Grande Branco</a>
+  <a href="#baleia">Baleia</a>
+  <a href="#martelo">Martelo</a>
+  <a href="#tigre">Tigre</a>
+  <a href="#mako">Mako</a>
+  <a href="#megalodon">Megalodonte</a>
+</nav>
+
+<main>
+
+  <!-- TUBARÃO 1: Grande Branco -->
+  <section class="shark-card" id="grande-branco">
+    <div class="card-number">01</div>
+
+    <div class="shark-figure">
+      <div class="shark-svg-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Great White Shark -->
+          <g transform="translate(100,100)">
+            <!-- Body -->
+            <ellipse cx="0" cy="0" rx="75" ry="28" fill="#a8b8c8" stroke="#7a9ab5" stroke-width="1"/>
+            <!-- Belly -->
+            <ellipse cx="5" cy="8" rx="60" ry="16" fill="#e8eef2"/>
+            <!-- Caudal fin top -->
+            <polygon points="75,0 95,-28 85,5" fill="#8fa8bc"/>
+            <!-- Caudal fin bottom -->
+            <polygon points="75,5 90,22 80,8" fill="#8fa8bc"/>
+            <!-- Dorsal fin -->
+            <polygon points="-5,-28 15,-55 25,-28" fill="#7a9ab5"/>
+            <!-- Pectoral fin left -->
+            <polygon points="-10,10 -35,40 10,20" fill="#8fa8bc"/>
+            <!-- Pectoral fin right -->
+            <polygon points="-10,10 -35,-5 10,0" fill="#9ab0c0" opacity="0.6"/>
+            <!-- Gill slits -->
+            <line x1="-25" y1="-15" x2="-22" y2="10" stroke="#6a8aa0" stroke-width="1.5" opacity="0.6"/>
+            <line x1="-18" y1="-17" x2="-15" y2="12" stroke="#6a8aa0" stroke-width="1.5" opacity="0.6"/>
+            <line x1="-11" y1="-18" x2="-8" y2="13" stroke="#6a8aa0" stroke-width="1.5" opacity="0.6"/>
+            <!-- Eye -->
+            <circle cx="-55" cy="-5" r="5" fill="#111"/>
+            <circle cx="-53" cy="-7" r="1.5" fill="rgba(255,255,255,0.3)"/>
+            <!-- Snout -->
+            <ellipse cx="-78" cy="2" rx="8" ry="5" fill="#9ab0c0"/>
+            <!-- Teeth hint -->
+            <path d="M-82,4 Q-78,12 -68,6" fill="none" stroke="#e8eef2" stroke-width="1.5"/>
+          </g>
+        </svg>
+      </div>
+      <span class="shark-tag">Carcharodon carcharias</span>
+    </div>
+
+    <div class="shark-info">
+      <h2 class="shark-name">Tubarão Grande Branco</h2>
+      <span class="shark-latin">Carcharodon carcharias</span>
+      <p class="shark-desc">
+        O predador mais icônico dos oceanos. Com dentes serrilhados que podem chegar a 7 cm e sentidos aguçadíssimos, o grande branco é capaz de detectar uma gota de sangue em 100 litros de água. Apesar da fama, raramente ataca humanos por vontade própria.
+      </p>
+      <div class="shark-stats">
+        <div class="stat">
+          <span class="stat-label">Comprimento</span>
+          <span class="stat-value">até 6,4 m</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Peso</span>
+          <span class="stat-value">até 2.250 kg</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Velocidade</span>
+          <span class="stat-value">56 km/h</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Habitat</span>
+          <span class="stat-value">Oceano aberto</span>
+        </div>
+      </div>
+      <span class="danger-badge danger-high">⬤ Perigo: Alto</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- TUBARÃO 2: Baleia -->
+  <section class="shark-card" id="baleia">
+    <div class="card-number">02</div>
+
+    <div class="shark-figure">
+      <div class="shark-svg-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <!-- Whale shark body - huge and rounded -->
+            <ellipse cx="0" cy="0" rx="80" ry="35" fill="#2a5a7a" stroke="#1a4060" stroke-width="1"/>
+            <!-- Belly -->
+            <ellipse cx="5" cy="12" rx="65" ry="18" fill="#e8eef2" opacity="0.9"/>
+            <!-- Spots pattern -->
+            <circle cx="-50" cy="-15" r="4" fill="#4a9eff" opacity="0.4"/>
+            <circle cx="-30" cy="-20" r="3" fill="#4a9eff" opacity="0.4"/>
+            <circle cx="-10" cy="-22" r="5" fill="#4a9eff" opacity="0.4"/>
+            <circle cx="15" cy="-18" r="3.5" fill="#4a9eff" opacity="0.4"/>
+            <circle cx="35" cy="-14" r="4" fill="#4a9eff" opacity="0.4"/>
+            <circle cx="-40" cy="5" r="3" fill="#4a9eff" opacity="0.3"/>
+            <circle cx="-20" cy="2" r="4.5" fill="#4a9eff" opacity="0.3"/>
+            <circle cx="5" cy="-5" r="3" fill="#4a9eff" opacity="0.3"/>
+            <circle cx="28" cy="2" r="4" fill="#4a9eff" opacity="0.3"/>
+            <!-- Caudal fin -->
+            <polygon points="78,0 98,-30 90,5" fill="#1a4a6a"/>
+            <polygon points="78,5 95,30 86,8" fill="#1a4a6a"/>
+            <!-- Dorsal fin - tall -->
+            <polygon points="5,-35 20,-65 30,-35" fill="#1a4a6a"/>
+            <!-- Pectoral fins - very large -->
+            <polygon points="-15,12 -55,55 5,28" fill="#2a5a7a"/>
+            <polygon points="-15,12 -50,-8 5,0" fill="#3a6a8a" opacity="0.7"/>
+            <!-- Wide flat head -->
+            <ellipse cx="-80" cy="2" rx="10" ry="14" fill="#254f6a"/>
+            <!-- Eye -->
+            <circle cx="-68" cy="-8" r="4" fill="#0a1a2a"/>
+            <circle cx="-66" cy="-10" r="1.2" fill="rgba(255,255,255,0.3)"/>
+            <!-- Mouth line - wide terminal -->
+            <path d="M-88,-8 Q-85,8 -72,8" fill="none" stroke="#e8eef2" stroke-width="2"/>
+          </g>
+        </svg>
+      </div>
+      <span class="shark-tag">Rhincodon typus</span>
+    </div>
+
+    <div class="shark-info">
+      <h2 class="shark-name">Tubarão Baleia</h2>
+      <span class="shark-latin">Rhincodon typus</span>
+      <p class="shark-desc">
+        O maior peixe do planeta e, surpreendentemente, um dos mais dóceis. Alimenta-se filtrando plâncton, ovos de peixe e pequenos cardumes com sua boca gigante. Pode viver até 130 anos e percorrer milhares de quilômetros pelas rotas migratórias dos oceanos tropicais.
+      </p>
+      <div class="shark-stats">
+        <div class="stat">
+          <span class="stat-label">Comprimento</span>
+          <span class="stat-value">até 18 m</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Peso</span>
+          <span class="stat-value">até 21 toneladas</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Dieta</span>
+          <span class="stat-value">Filtrador</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Vida útil</span>
+          <span class="stat-value">~130 anos</span>
+        </div>
+      </div>
+      <span class="danger-badge danger-low">⬤ Perigo: Nenhum</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- TUBARÃO 3: Martelo -->
+  <section class="shark-card" id="martelo">
+    <div class="card-number">03</div>
+
+    <div class="shark-figure">
+      <div class="shark-svg-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <!-- Body -->
+            <ellipse cx="0" cy="0" rx="72" ry="24" fill="#6a8aaa" stroke="#4a6a8a" stroke-width="1"/>
+            <!-- Belly -->
+            <ellipse cx="5" cy="7" rx="58" ry="13" fill="#dce8f0"/>
+            <!-- Caudal fin -->
+            <polygon points="72,0 92,-26 82,5" fill="#5a7a9a"/>
+            <polygon points="72,5 88,22 78,8" fill="#5a7a9a"/>
+            <!-- Dorsal fin -->
+            <polygon points="-2,-24 12,-50 22,-24" fill="#4a6a8a"/>
+            <!-- Pectoral fins -->
+            <polygon points="-8,10 -38,38 8,20" fill="#5a7a9a"/>
+            <polygon points="-8,8 -38,-4 8,0" fill="#6a8aaa" opacity="0.6"/>
+            <!-- HAMMER HEAD - distinctive cephalofoil -->
+            <rect x="-90" y="-20" width="28" height="40" rx="6" fill="#5a7a9a"/>
+            <!-- Eyes on ends of hammer -->
+            <circle cx="-86" cy="2" r="5" fill="#0a1a2a"/>
+            <circle cx="-84" cy="0" r="1.5" fill="rgba(255,255,255,0.3)"/>
+            <!-- Nostrils on hammer -->
+            <ellipse cx="-75" cy="-4" r="3" ry="2" fill="#3a5a7a" opacity="0.8"/>
+            <ellipse cx="-75" cy="8" r="3" ry="2" fill="#3a5a7a" opacity="0.8"/>
+            <!-- Gill slits -->
+            <line x1="-30" y1="-14" x2="-27" y2="8" stroke="#4a6a8a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="-22" y1="-16" x2="-19" y2="9" stroke="#4a6a8a" stroke-width="1.5" opacity="0.7"/>
+            <line x1="-14" y1="-17" x2="-11" y2="10" stroke="#4a6a8a" stroke-width="1.5" opacity="0.7"/>
+          </g>
+        </svg>
+      </div>
+      <span class="shark-tag">Sphyrna mokarran</span>
+    </div>
+
+    <div class="shark-info">
+      <h2 class="shark-name">Tubarão Martelo</h2>
+      <span class="shark-latin">Sphyrna mokarran</span>
+      <p class="shark-desc">
+        Imediatamente reconhecível por sua cabeça em formato de martelo — chamada de cefalofoílio — que espalha os órgãos sensoriais conferindo uma visão e olfato 360°. Costumam nadar em cardumes enormes e incríveis durante o dia, tornando-se solitários à noite para caçar.
+      </p>
+      <div class="shark-stats">
+        <div class="stat">
+          <span class="stat-label">Comprimento</span>
+          <span class="stat-value">até 6 m</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Peso</span>
+          <span class="stat-value">até 580 kg</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Grupo</span>
+          <span class="stat-value">Cardumes</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Dieta</span>
+          <span class="stat-value">Arraias e peixes</span>
+        </div>
+      </div>
+      <span class="danger-badge danger-med">⬤ Perigo: Moderado</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- TUBARÃO 4: Tigre -->
+  <section class="shark-card" id="tigre">
+    <div class="card-number">04</div>
+
+    <div class="shark-figure">
+      <div class="shark-svg-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <!-- Body -->
+            <ellipse cx="0" cy="0" rx="76" ry="30" fill="#8a9aaa" stroke="#6a7a90" stroke-width="1"/>
+            <!-- Belly -->
+            <ellipse cx="5" cy="9" rx="62" ry="17" fill="#dde6ee"/>
+            <!-- Tiger stripes -->
+            <line x1="-40" y1="-30" x2="-35" y2="0" stroke="#5a6a7a" stroke-width="3.5" opacity="0.5"/>
+            <line x1="-20" y1="-30" x2="-15" y2="2" stroke="#5a6a7a" stroke-width="3" opacity="0.45"/>
+            <line x1="0" y1="-30" x2="5" y2="2" stroke="#5a6a7a" stroke-width="3.5" opacity="0.4"/>
+            <line x1="20" y1="-28" x2="25" y2="2" stroke="#5a6a7a" stroke-width="3" opacity="0.35"/>
+            <line x1="40" y1="-24" x2="45" y2="0" stroke="#5a6a7a" stroke-width="2.5" opacity="0.3"/>
+            <!-- Caudal fin - asymmetric -->
+            <polygon points="76,0 100,-35 88,5" fill="#6a7a90"/>
+            <polygon points="76,5 95,18 82,8" fill="#7a8aa0"/>
+            <!-- Dorsal fin - large -->
+            <polygon points="0,-30 18,-58 30,-30" fill="#6a7a90"/>
+            <!-- Pectoral fins -->
+            <polygon points="-12,12 -45,42 8,24" fill="#7a8aa0"/>
+            <polygon points="-12,10 -45,-5 8,2" fill="#8a9aaa" opacity="0.6"/>
+            <!-- Blunt rounded head -->
+            <ellipse cx="-80" cy="2" rx="10" ry="16" fill="#7a8a9a"/>
+            <!-- Eye -->
+            <circle cx="-70" cy="-8" r="5.5" fill="#0a1220"/>
+            <circle cx="-68" cy="-10" r="1.5" fill="rgba(255,255,255,0.3)"/>
+            <!-- Mouth -->
+            <path d="M-88,-5 Q-82,14 -68,10" fill="none" stroke="#dde6ee" stroke-width="2"/>
+            <!-- Gill slits -->
+            <line x1="-35" y1="-17" x2="-32" y2="10" stroke="#5a6a7a" stroke-width="1.5" opacity="0.6"/>
+            <line x1="-26" y1="-19" x2="-23" y2="12" stroke="#5a6a7a" stroke-width="1.5" opacity="0.6"/>
+            <line x1="-17" y1="-20" x2="-14" y2="13" stroke="#5a6a7a" stroke-width="1.5" opacity="0.6"/>
+          </g>
+        </svg>
+      </div>
+      <span class="shark-tag">Galeocerdo cuvier</span>
+    </div>
+
+    <div class="shark-info">
+      <h2 class="shark-name">Tubarão Tigre</h2>
+      <span class="shark-latin">Galeocerdo cuvier</span>
+      <p class="shark-desc">
+        Conhecido como o "lixeiro do oceano" por sua dieta extremamente variada — come praticamente qualquer coisa, inclusive objetos inanimados. As listras que cobrem os jovens se desvanecem com a idade. É o segundo maior tubarão predador e habita águas costeiras tropicais do mundo todo.
+      </p>
+      <div class="shark-stats">
+        <div class="stat">
+          <span class="stat-label">Comprimento</span>
+          <span class="stat-value">até 5,5 m</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Peso</span>
+          <span class="stat-value">até 900 kg</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Dieta</span>
+          <span class="stat-value">Oportunista total</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Habitat</span>
+          <span class="stat-value">Zonas costeiras</span>
+        </div>
+      </div>
+      <span class="danger-badge danger-high">⬤ Perigo: Alto</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- TUBARÃO 5: Mako -->
+  <section class="shark-card" id="mako">
+    <div class="card-number">05</div>
+
+    <div class="shark-figure">
+      <div class="shark-svg-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <!-- Slender torpedo body -->
+            <ellipse cx="0" cy="0" rx="78" ry="20" fill="#4a7aaa" stroke="#2a5a8a" stroke-width="1"/>
+            <!-- Belly -->
+            <ellipse cx="5" cy="6" rx="64" ry="11" fill="#e8f0f8"/>
+            <!-- Caudal fin - lunate/crescent shaped -->
+            <polygon points="78,0 100,-32 92,3" fill="#2a5a8a"/>
+            <polygon points="78,2 98,30 90,5" fill="#2a5a8a"/>
+            <!-- Dorsal fin - tall and swept back -->
+            <polygon points="2,-20 22,-52 35,-20" fill="#3a6a9a"/>
+            <!-- Second dorsal - small -->
+            <polygon points="52,-10 58,-22 64,-10" fill="#3a6a9a"/>
+            <!-- Pectoral fins - long and narrow -->
+            <polygon points="-15,8 -52,32 2,18" fill="#3a6a9a"/>
+            <polygon points="-15,8 -48,-6 2,0" fill="#4a7aaa" opacity="0.6"/>
+            <!-- Keel on caudal peduncle -->
+            <line x1="60" y1="-4" x2="78" y2="-4" stroke="#2a5a8a" stroke-width="3"/>
+            <line x1="60" y1="6" x2="78" y2="6" stroke="#2a5a8a" stroke-width="3"/>
+            <!-- Pointed conical snout -->
+            <polygon points="-78,0 -95,-5 -95,5" fill="#3a6a9a"/>
+            <!-- Eye -->
+            <circle cx="-65" cy="-6" r="4.5" fill="#050e1a"/>
+            <circle cx="-63" cy="-8" r="1.2" fill="rgba(255,255,255,0.25)"/>
+            <!-- Open mouth with teeth -->
+            <path d="M-90,-2 Q-84,8 -70,5" fill="none" stroke="#e8f0f8" stroke-width="1.5"/>
+            <line x1="-84" y1="0" x2="-82" y2="6" stroke="#e8f0f8" stroke-width="1"/>
+            <line x1="-79" y1="1" x2="-77" y2="7" stroke="#e8f0f8" stroke-width="1"/>
+            <!-- Gill slits -->
+            <line x1="-34" y1="-12" x2="-31" y2="6" stroke="#2a5a8a" stroke-width="1.5" opacity="0.6"/>
+            <line x1="-26" y1="-13" x2="-23" y2="7" stroke="#2a5a8a" stroke-width="1.5" opacity="0.6"/>
+            <line x1="-18" y1="-14" x2="-15" y2="8" stroke="#2a5a8a" stroke-width="1.5" opacity="0.6"/>
+          </g>
+        </svg>
+      </div>
+      <span class="shark-tag">Isurus oxyrinchus</span>
+    </div>
+
+    <div class="shark-info">
+      <h2 class="shark-name">Tubarão Mako</h2>
+      <span class="shark-latin">Isurus oxyrinchus</span>
+      <p class="shark-desc">
+        O tubarão mais rápido do mundo e um dos animais mais velozes do oceano. Seu corpo em formato de torpedo, a cauda em forma de lua crescente e a musculatura poderosa permitem explosões de velocidade que deixam até atum e marlim para trás. É considerado um dos maiores troféus da pesca esportiva.
+      </p>
+      <div class="shark-stats">
+        <div class="stat">
+          <span class="stat-label">Comprimento</span>
+          <span class="stat-value">até 4,5 m</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Velocidade</span>
+          <span class="stat-value">74 km/h</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Salto</span>
+          <span class="stat-value">até 9 m de altura</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Conservação</span>
+          <span class="stat-value">Em perigo</span>
+        </div>
+      </div>
+      <span class="danger-badge danger-med">⬤ Perigo: Moderado</span>
+    </div>
+  </section>
+
+  <div class="divider">· · ·</div>
+
+  <!-- TUBARÃO 6: Megalodonte -->
+  <section class="shark-card megalodon-card" id="megalodon">
+    <div class="card-number">06</div>
+
+    <div class="shark-figure">
+      <div class="shark-svg-wrap megalodon-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(100,100)">
+            <!-- Massive thick body -->
+            <ellipse cx="0" cy="0" rx="82" ry="38" fill="#5a4a3a" stroke="#3a2a1a" stroke-width="1.2"/>
+            <!-- Belly - cream/pale -->
+            <ellipse cx="5" cy="12" rx="68" ry="22" fill="#e8dcc8"/>
+            <!-- Caudal fin - huge and powerful -->
+            <polygon points="82,0 108,-40 96,6" fill="#3a2a1a"/>
+            <polygon points="82,6 105,30 92,10" fill="#4a3a2a"/>
+            <!-- Dorsal fin - massive -->
+            <polygon points="-2,-38 20,-72 36,-38" fill="#3a2a1a"/>
+            <!-- Second dorsal -->
+            <polygon points="48,-20 58,-36 68,-20" fill="#4a3a2a"/>
+            <!-- Pectoral fins - enormous -->
+            <polygon points="-14,14 -58,52 10,28" fill="#4a3a2a"/>
+            <polygon points="-14,12 -58,-8 10,2" fill="#5a4a3a" opacity="0.7"/>
+            <!-- Pelvic fin -->
+            <polygon points="30,18 40,36 50,20" fill="#4a3a2a"/>
+            <!-- Gill slits - thick -->
+            <line x1="-38" y1="-22" x2="-34" y2="12" stroke="#2a1a0a" stroke-width="2" opacity="0.6"/>
+            <line x1="-28" y1="-24" x2="-24" y2="14" stroke="#2a1a0a" stroke-width="2" opacity="0.6"/>
+            <line x1="-18" y1="-26" x2="-14" y2="16" stroke="#2a1a0a" stroke-width="2" opacity="0.6"/>
+            <line x1="-8"  y1="-27" x2="-4"  y2="17" stroke="#2a1a0a" stroke-width="2" opacity="0.6"/>
+            <!-- Blunt massive snout -->
+            <ellipse cx="-86" cy="2" rx="12" ry="20" fill="#4a3a2a"/>
+            <!-- Eye - small relative to body -->
+            <circle cx="-74" cy="-10" r="6" fill="#0a0805"/>
+            <circle cx="-71" cy="-13" r="1.8" fill="rgba(255,240,200,0.25)"/>
+            <!-- Jaw - massive gaping -->
+            <path d="M-96,-8 Q-88,22 -68,16" fill="none" stroke="#e8dcc8" stroke-width="2.5"/>
+            <!-- Teeth - iconic serrated -->
+            <polygon points="-88,-2 -84,10 -80,-2" fill="#f0e8d0"/>
+            <polygon points="-80,-3 -76,11 -72,-3" fill="#f0e8d0"/>
+            <polygon points="-72,-4 -68,11 -64,-4" fill="#f0e8d0"/>
+            <polygon points="-88,4 -84,16 -80,4"  fill="#d8ceb8" opacity="0.7"/>
+            <polygon points="-80,3 -76,16 -72,3"  fill="#d8ceb8" opacity="0.7"/>
+          </g>
+        </svg>
+      </div>
+      <span class="shark-tag extinct-tag">Otodus megalodon · Extinto</span>
+    </div>
+
+    <div class="shark-info">
+      <h2 class="shark-name megalodon-name">Megalodonte</h2>
+      <span class="shark-latin" style="color: #c8784b;">Otodus megalodon · †Extinto há ~3,6 milhões de anos</span>
+      <p class="shark-desc">
+        O maior tubarão que já existiu — e talvez o maior predador marinhoconhecido da história. Seus dentes fossilizados chegam a 18 cm, maiores que a palma de uma mão. Acredita-se que caçava baleias inteiras e podia abrir as mandíbulas o suficiente para engolir um ser humano de uma só vez.
+      </p>
+      <div class="shark-stats">
+        <div class="stat">
+          <span class="stat-label">Comprimento estimado</span>
+          <span class="stat-value">até 20 m</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Peso estimado</span>
+          <span class="stat-value">até 100 toneladas</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Força da mordida</span>
+          <span class="stat-value">~182.000 N</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Período</span>
+          <span class="stat-value">23 – 3,6 M.a.</span>
+        </div>
+      </div>
+      <span class="danger-badge danger-extinct">☠ Extinto · Perigo: Lendário</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Ninipedia · Enciclopédia dos Tubarões · Feito com amor e fascinação pelo oceano profundo</p>
+</footer>
+
+<script>
+  // Smooth scroll for nav links
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
